@@ -1,15 +1,17 @@
 ##Longest Palindrome
 
 '''
-If you have a character twice in the array, you can make sure that, you can use that 2 characters in forming the palindrome.
+Concept to Remember:
 
-That is the reason, when you see a character which is already in the array, you remove the character, and increment the counter by 2.
+    If a character appears twice, both occurrences can contribute to a palindrome.
+    When encountering a duplicate character, remove it from the set and increase the palindrome length by 2.
+    After processing all characters, if any remain in the set, one of them can be placed at the center, increasing the palindrome length by 1.
 
-If you have still any character in the set, which can increment your length of the word by 1.
+Example:
+    For the string "aabcbaa":
 
-i.e aabcbaa
-
-here c is the one which can you use to increment the counter by 1.
+    Pairs: 'a' (3 times, so we use 2), 'b' (2 times), 'c' (1 time).
+    Longest palindrome length: 6 (from pairs) + 1 (center 'c') = 7.
 
 '''
 class Solution:
@@ -35,24 +37,27 @@ class Solution:
 ## Contigous sub-array
 
 '''
-The concept which I have to remember while solving the solution is
+Concept to Remember:
+    When encountering 0, decrement the counter by 1.
+    When encountering 1, increment the counter by 1.
+    If the running_sum has been seen before, it means there is a contiguous subarray with an equal number of 0s and 1s.
+    To determine the length of this subarray, subtract the current index from the previously stored index of the same running_sum.
 
-when you see 0, decrement the counter by 1, else increment the counter by 1
+Edge Case:
 
-and also when you see the running_sum which already existed before the current running_sum, then you can make sure that, the number 1's and 0's are contigous.
+    Store hash_map[0] = -1 initially.
+    This handles cases where the running_sum becomes 0, meaning the subarray from the start (index 0) to the current index is balanced.
+    Example:
 
-Try to see subtract the indices of the currentindex to the index which is already stored in the hash_map, and see if it is the matches the max value.
+    Index:      0  1  2  3
+    Array:    [0, 1, 0, 1]
+    Running Sum: -1 0 -1 0
 
-Edge case: The edgecase, which you have to remember is if storing  the value of hash_map[0] = -1
+    Without handling this edge case, the max subarray length would incorrectly be 2 instead of 4.
 
-The example which can make you understand why the edge case is important is  when the array is
-0,1,2,3
-[0,1,0,1]
--1 0 -1 0
+Alternative Approach:
 
-If you just follow the logic without the edge case, then the max value turns out to be only 2.
-
-If you don't want to write the edge case, then you can check by making sure, that if the running_sum becomes 0, then is the current index, is greater than the max_value seen so far.
+    Instead of explicitly storing hash_map[0] = -1, check if running_sum == 0 and update max_length accordingly.
 
 '''
 class Solution:
@@ -105,24 +110,28 @@ class Solution:
 
 
 '''
-The concept of the problem is based on the underlying statement, if you remove the required target from the running sum,
-If that value already existed in the running_sum then you can count as one of your required sub array.
+Concept to Remember:
 
-Edge case: hash_map[0]=1
+    The problem relies on the idea that if you subtract the target sum (K) from the running sum, and that value has appeared before, then a valid subarray exists.
+    To determine the length of such subarrays, store the first occurrence of each running_sum in a hashmap.
+    If running_sum - K exists in the hashmap, it means a subarray summing to K is present.
 
-Why?
+Edge Case:
 
-Consider the example
+    Initialize hash_map[0] = 1 (instead of -1 like in previous problems).
+    This ensures that if running_sum itself equals K, we count it as a valid subarray.
+    Example:
 
-4, 3, 7 and K=7
+    Array:      [4, 3, 7]
+    Target K:   7
+    Running Sum: 4 → 7 → 14
 
-Answer : 2
+        Subarrays summing to 7: [4,3] and [7]
+        Without hash_map[0] = 1, we'd miss the subarray [7].
 
-One sub array is [4,3] and the other one is [7]
+Alternative Approach:
 
-If you dont place hash_map[0]=1, you will get only one.
-
-I m using defaultdict(int) so that the hash_map gets initialized with 0 by default.
+    If not explicitly setting hash_map[0] = 1, handle cases where running_sum == K by checking max_length or count separately.
 
 '''
 
